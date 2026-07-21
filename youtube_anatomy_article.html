@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anatomía de un Video de YouTube: Guía Visual</title>
+<style>
+  :root {
+    --bg-dark: #0f0f0f;
+    --bg-card: #1a1a1a;
+    --bg-inner: #222;
+    --text-primary: #f1f1f1;
+    --text-secondary: #ccc;
+    --text-muted: #999;
+    --accent-red: #ff0000;
+    --accent-blue: #4dabf7;
+    --accent-green: #69db7c;
+    --accent-yellow: #ffd43b;
+    --accent-purple: #da77f2;
+    --border: #333;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 24px;
+  }
+
+  /* Phase blocks */
+  .phase {
+    margin-bottom: 28px;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .phase-number {
+    width: 32px;
+    height: 32px;
+    background: var(--accent-red);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+
+  .phase-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .phase-body {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    border-left: 3px solid var(--accent-red);
+  }
+
+  .quote {
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  /* Grid layouts */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .card {
+    background: var(--bg-inner);
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .card-label {
+    font-weight: 600;
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .card-text {
+    font-size: 0.85rem;
+    color: #ddd;
+  }
+
+  .card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .card-title {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .card-desc {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  /* Checklist */
+  .checklist {
+    background: var(--bg-inner);
+    padding: 14px;
+    border-radius: 10px;
+    min-width: 220px;
+    flex: 0.8;
+  }
+
+  .checklist-title {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  .checklist-item {
+    font-size: 0.8rem;
+    color: #aaa;
+    line-height: 1.8;
+  }
+
+  /* Warning box */
+  .warning {
+    margin-top: 12px;
+    background: #2a1a1a;
+    border: 1px solid #ff4444;
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+
+  .warning-label {
+    font-size: 0.8rem;
+    color: #ff9999;
+    font-weight: 600;
+  }
+
+  .warning-text {
+    font-size: 0.8rem;
+    color: #ccc;
+  }
+
+  /* Format cards */
+  .format-card {
+    background: var(--bg-inner);
+    padding: 14px;
+    border-radius: 10px;
+    border-top: 3px solid var(--accent-blue);
+  }
+
+  .format-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .format-text {
+    font-size: 0.8rem;
+    color: #bbb;
+    line-height: 1.5;
+  }
+
+  /* Pattern interrupts */
+  .pattern-box {
+    background: var(--bg-inner);
+    padding: 14px;
+    border-radius: 10px;
+    margin-top: 16px;
+  }
+
+  .pattern-title {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background: #333;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: #ddd;
+  }
+
+  /* Flow diagram */
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .flow-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--accent-red);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .flow-dot-blue {
+    background: var(--accent-blue);
+  }
+
+  .flow-line {
+    width: 2px;
+    height: 16px;
+    background: #444;
+    margin-left: 5px;
+  }
+
+  .flow-box {
+    flex: 1;
+    background: var(--bg-inner);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+
+  .flow-box-blue {
+    color: var(--accent-blue);
+  }
+
+  /* Metric cards */
+  .metric-card {
+    background: var(--bg-card);
+    padding: 14px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .metric-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent-red);
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 4px;
+  }
+
+  /* Presentation flow */
+  .presentation-flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+  }
+
+  .flow-item {
+    background: #333;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: #fff;
+  }
+
+  .flow-item-accent {
+    background: var(--accent-red);
+    font-weight: 600;
+  }
+
+  .arrow {
+    color: #666;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .presentation-flow { flex-direction: column; align-items: flex-start; }
+    .arrow { display: none; }
+  }
+
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #666;
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="container">
+
+  <h2>Anatomía de un Video de YouTube</h2>
+  <p class="subtitle">Roadmap visual basado en frameworks de Ali Abdal, Diary of a CEO y métricas 2026</p>
+
+  <!-- FASE 0: PRE-PRODUCCIÓN -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">0</div>
+      <h3 class="phase-title">Pre-Producción: El 90% del éxito</h3>
+    </div>
+    <div class="phase-body">
+      <p class="quote">"El error más grave es pasar 90% en el video y 10% en la ideación, miniatura e intro. Es completamente al revés."</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-label">Miniatura + Título</div>
+          <div class="card-text">Decidir ANTES de grabar. Testear ángulos en ads. El título y la imagen son un solo sistema.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Insight / Hook</div>
+          <div class="card-text">¿Qué pregunta genera el click? El ángulo debe provenir de data, no de intuición.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Avatar</div>
+          <div class="card-text">Canal fantasma de investigación. Entender qué ve tu cliente ideal antes de crear.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 1: LA MINIATURA -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">1</div>
+      <h3 class="phase-title">La Miniatura: Puerta de entrada</h3>
+    </div>
+    <div class="phase-body">
+      <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start;">
+        <div style="flex: 1; min-width: 250px;">
+          <p class="quote">"YouTube es click and watch. Si no hay click, no hay nada."</p>
+          <ul style="margin: 0; padding-left: 18px; font-size: 0.85rem; color: #bbb; line-height: 1.7;">
+            <li>CTR sano: 4-10% (meta: &gt;5%)</li>
+            <li>La miniatura y el título son <strong>un solo conjunto</strong></li>
+            <li>Testear constantemente (A/B nativo de YouTube)</li>
+            <li>Confirmar la promesa en los primeros 30s</li>
+          </ul>
+        </div>
+        <div class="checklist">
+          <div class="checklist-title">🎯 Checklist Miniatura</div>
+          <div class="checklist-item">☐ ¿Genera curiosidad o promesa clara?</div>
+          <div class="checklist-item">☐ ¿Se lee en móvil (texto grande)?</div>
+          <div class="checklist-item">☐ ¿Hay contraste de color?</div>
+          <div class="checklist-item">☐ ¿Rostro con emoción (si aplica)?</div>
+          <div class="checklist-item">☐ ¿El título complementa, no repite?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2: LOS PRIMEROS 30 SEGUNDOS -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">2</div>
+      <h3 class="phase-title">Los Primeros 30s: La Promesa</h3>
+    </div>
+    <div class="phase-body">
+      <p class="quote">"55% de la gente se va en el primer minuto. Los primeros 30 segundos son la señal de intención de vista."</p>
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-icon">🎣</div>
+          <div class="card-title">Hook Directo</div>
+          <div class="card-desc">Afirmación audaz, resultado preview, o gap de curiosidad</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">✅</div>
+          <div class="card-title">Confirma Miniatura</div>
+          <div class="card-desc">El viewer verifica que no es clickbait</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎁</div>
+          <div class="card-title">Entrega Valor Rápido</div>
+          <div class="card-desc">No presentaciones. El viewer quiere el beneficio YA</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📍</div>
+          <div class="card-title">Establece Agenda</div>
+          <div class="card-desc">"En este video verás X, Y y Z"</div>
+        </div>
+      </div>
+      <div class="warning">
+        <div class="warning-label">⚠️ ERROR COMÚN:</div>
+        <div class="warning-text">"Hola, soy [nombre], bienvenidos a mi canal, hoy vamos a hablar de..." → El viewer ya se fue.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 3: EL CUERPO -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">3</div>
+      <h3 class="phase-title">El Cuerpo: Entrega de Valor + Retención</h3>
+    </div>
+    <div class="phase-body">
+      <p class="quote">Estructuras probadas. Elige según tu formato y talento.</p>
+
+      <div class="grid-3" style="margin-bottom: 16px;">
+        <div class="format-card" style="border-top-color: var(--accent-blue);">
+          <div class="format-label" style="color: var(--accent-blue);">📋 LISTICLE</div>
+          <div class="format-text">5 ideas, 7 errores, 3 pasos. Fácil de producir, claro para el viewer. Ali Abdal lo usa frecuentemente.</div>
+        </div>
+        <div class="format-card" style="border-top-color: var(--accent-green);">
+          <div class="format-label" style="color: var(--accent-green);">📖 STORY / HERO'S JOURNEY</div>
+          <div class="format-text">Tu transformación personal. El gold standard de retención. Más difícil, más memorable.</div>
+        </div>
+        <div class="format-card" style="border-top-color: var(--accent-yellow);">
+          <div class="format-label" style="color: var(--accent-yellow);">🎙️ CONVERSACIÓN / PODCAST</div>
+          <div class="format-text">Menos edición, más autenticidad. Funciona para marcas personales maduras. Hormozi, Abdal lo usan.</div>
+        </div>
+        <div class="format-card" style="border-top-color: var(--accent-purple);">
+          <div class="format-label" style="color: var(--accent-purple);">🧠 ENSAYO (Why/What/How)</div>
+          <div class="format-text">Ideal para educación profunda. Estructura: problema → análisis → solución → conclusión.</div>
+        </div>
+      </div>
+
+      <div class="pattern-box">
+        <div class="pattern-title">🔄 Pattern Interrupts (cada 60-90s)</div>
+        <div class="tag-container">
+          <span class="tag">Cambio de ángulo de cámara</span>
+          <span class="tag">B-roll / pantalla</span>
+          <span class="tag">Texto en pantalla</span>
+          <span class="tag">Recap: "Hasta aquí vimos X"</span>
+          <span class="tag">Cambio de tono (story → data)</span>
+          <span class="tag">Zoom cut (10-15%)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 4: PRESENTACIÓN ESTRATÉGICA -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">4</div>
+      <h3 class="phase-title">Presentación Estratégica (para marcas personales)</h3>
+    </div>
+    <div class="phase-body">
+      <p class="quote">"Valor, me presento. Valor, me presento." — Estructura de Alex Hormozi y Ali Abdal.</p>
+      <div class="presentation-flow">
+        <div class="flow-item">🎣 Hook</div>
+        <span class="arrow">→</span>
+        <div class="flow-item">💎 Valor</div>
+        <span class="arrow">→</span>
+        <div class="flow-item flow-item-accent">👤 Me presento</div>
+        <span class="arrow">→</span>
+        <div class="flow-item">💎 Valor</div>
+        <span class="arrow">→</span>
+        <div class="flow-item">💎 Valor</div>
+        <span class="arrow">→</span>
+        <div class="flow-item flow-item-accent">👤 Me presento</div>
+      </div>
+      <p style="margin: 10px 0 0 0; font-size: 0.8rem; color: #999;">No presentarte al inicio. Primero demuestra valor, luego dices quién eres. La audiencia nueva necesita una razón para quedarse antes de conocerte.</p>
+    </div>
+  </div>
+
+  <!-- FASE 5: CTA + CIERRE -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">5</div>
+      <h3 class="phase-title">CTA + Cierre: El siguiente paso</h3>
+    </div>
+    <div class="phase-body">
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-label" style="color: var(--accent-green);">✅ Regla de dar para recibir</div>
+          <div class="card-text">El CTA va DESPUÉS de entregar valor. Nunca antes.</div>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color: var(--accent-green);">🔗 Segue natural</div>
+          <div class="card-text">"Si te interesó X, en este otro video profundizo en Y" — sin que el viewer note que terminó.</div>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color: var(--accent-green);">📺 End Cards</div>
+          <div class="card-text">Usa las pantallas finales de YouTube con videos relacionados estratégicamente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÉTRICAS CLAVE -->
+  <div style="margin-bottom: 20px;">
+    <div class="phase-header">
+      <div class="phase-number" style="background: #333;">📊</div>
+      <h3 class="phase-title">Métricas que importan (no suscriptores)</h3>
+    </div>
+    <div class="grid-4">
+      <div class="metric-card">
+        <div class="metric-value">30s</div>
+        <div class="metric-label">Retención primeros 30s<br><strong>Meta: &gt;70%</strong></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">50-60%</div>
+        <div class="metric-label">Retención promedio<br><strong>Meta para video 10-15min</strong></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">4-10%</div>
+        <div class="metric-label">CTR (Click-Through Rate)<br><strong>Meta: &gt;5%</strong></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">AVD</div>
+        <div class="metric-label">Average View Duration<br><strong>Ver curva, no solo número</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUMEN VISUAL -->
+  <div style="background: var(--bg-card); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+    <div style="font-weight: 700; color: #fff; margin-bottom: 14px; font-size: 1rem;">🗺️ Resumen: El flujo completo</div>
+    <div style="display: flex; flex-direction: column; gap: 0;">
+      <div class="flow-step">
+        <div class="flow-dot"></div>
+        <div class="flow-box"><strong>Pre-producción:</strong> Avatar → Insight → Miniatura+Título (testeado) → Hook escrito</div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot"></div>
+        <div class="flow-box"><strong>Grabación:</strong> Hook (0-30s) → Valor con pattern interrupts → Presentación estratégica → CTA post-valor</div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot"></div>
+        <div class="flow-box"><strong>Post-producción:</strong> Edición tight → Miniatura final → End cards → Publicar → Analizar retención a 48h y 7 días</div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot flow-dot-blue"></div>
+        <div class="flow-box flow-box-blue"><strong>Iteración:</strong> ¿Dónde cayó la retención? → ¿Qué miniatura funcionó? → Aplicar al siguiente video (1% mejor cada vez)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Basado en la entrevista con Eloisa Wolf + frameworks de Ali Abdal (HIVES), Alex Hormozi, y datos de retención 2026.
+  </div>
+
+</div>
+
+</body>
+</html>
